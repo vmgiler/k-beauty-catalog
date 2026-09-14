@@ -194,8 +194,14 @@
             object-fit: contain;
             transform: scale(1);
             transition: transform 0.2s ease;
-            cursor: zoom-out;
+            cursor: grab;
+            touch-action: none;
             user-select: none;
+        }
+
+        .image-modal-preview.dragging {
+            cursor: grabbing;
+            transition: none;
         }
 
         .image-modal-actions {
@@ -456,7 +462,7 @@
         <button class="image-modal-close" type="button" aria-label="Cerrar imagen" onclick="closeImageModal()">&times;</button>
         <div class="image-modal-content" onclick="event.stopPropagation()">
             <div class="image-modal-stage" onclick="closeImageModal(event)">
-                <img class="image-modal-preview" id="image-modal-preview" alt="" onclick="resetImageZoom()">
+                <img class="image-modal-preview" id="image-modal-preview" alt="" onclick="handlePreviewClick()" onpointerdown="startImagePan(event)" onpointermove="moveImagePan(event)" onpointerup="endImagePan(event)" onpointercancel="endImagePan(event)">
             </div>
             <div class="image-modal-actions">
                 <button class="image-modal-btn" type="button" aria-label="Alejar" onclick="zoomImage(-0.2)">-</button>
@@ -623,6 +629,12 @@
 
         let cart = [];
         let imageZoom = 1;
+        let imagePanX = 0;
+        let imagePanY = 0;
+        let imagePanStartX = 0;
+        let imagePanStartY = 0;
+        let imageDidPan = false;
+        let imageIsPanning = false;
 
         function openImageModal(src, alt) {
             const modal = document.getElementById('image-modal');
@@ -642,16 +654,60 @@
 
         function zoomImage(amount) {
             imageZoom = Math.min(3, Math.max(1, imageZoom + amount));
-            document.getElementById('image-modal-preview').style.transform = `scale(${imageZoom})`;
+            applyImageTransform();
             document.getElementById('image-zoom-level').textContent = `${Math.round(imageZoom * 100)}%`;
         }
 
         function resetImageZoom() {
             imageZoom = 1;
+            imagePanX = 0;
+            imagePanY = 0;
             const preview = document.getElementById('image-modal-preview');
-            if (preview) preview.style.transform = 'scale(1)';
+            if (preview) {
+                preview.style.transform = 'translate(0px, 0px) scale(1)';
+                preview.classList.remove('dragging');
+            }
             const zoomLevel = document.getElementById('image-zoom-level');
             if (zoomLevel) zoomLevel.textContent = '100%';
+        }
+
+        function applyImageTransform() {
+            const preview = document.getElementById('image-modal-preview');
+            if (preview) preview.style.transform = `translate(${imagePanX}px, ${imagePanY}px) scale(${imageZoom})`;
+        }
+
+        function startImagePan(event) {
+            imageIsPanning = true;
+            imageDidPan = false;
+            imagePanStartX = event.clientX - imagePanX;
+            imagePanStartY = event.clientY - imagePanY;
+            event.currentTarget.setPointerCapture(event.pointerId);
+            event.currentTarget.classList.add('dragging');
+        }
+
+        function moveImagePan(event) {
+            if (!imageIsPanning) return;
+            const nextPanX = event.clientX - imagePanStartX;
+            const nextPanY = event.clientY - imagePanStartY;
+            imageDidPan = imageDidPan || Math.abs(nextPanX - imagePanX) > 3 || Math.abs(nextPanY - imagePanY) > 3;
+            imagePanX = nextPanX;
+            imagePanY = nextPanY;
+            applyImageTransform();
+        }
+
+        function endImagePan(event) {
+            if (!imageIsPanning) return;
+            imageIsPanning = false;
+            event.currentTarget.releasePointerCapture(event.pointerId);
+            event.currentTarget.classList.remove('dragging');
+        }
+
+        function handlePreviewClick() {
+            if (imageDidPan) {
+                imageDidPan = false;
+                return;
+            }
+            resetImageZoom();
         }
 
         document.addEventListener('keydown', event => {
