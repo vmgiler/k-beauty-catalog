@@ -152,6 +152,74 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            cursor: zoom-in;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            background: rgba(20, 16, 17, 0.92);
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1rem 1rem;
+        }
+
+        .image-modal.open {
+            display: flex;
+        }
+
+        .image-modal-content {
+            max-width: min(1100px, 94vw);
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .image-modal-preview {
+            max-width: 100%;
+            max-height: 78vh;
+            object-fit: contain;
+            transform: scale(1);
+            transition: transform 0.2s ease;
+            cursor: zoom-out;
+            user-select: none;
+        }
+
+        .image-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .image-modal-btn {
+            min-width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .image-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            border: 0;
+            background: transparent;
+            color: white;
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
         }
 
         .product-info {
@@ -372,6 +440,19 @@
         </div>
     </main>
 
+    <!-- Modal Visor de Imagen -->
+    <div class="image-modal" id="image-modal" onclick="closeImageModal(event)">
+        <button class="image-modal-close" type="button" aria-label="Cerrar imagen" onclick="closeImageModal()">&times;</button>
+        <div class="image-modal-content" onclick="event.stopPropagation()">
+            <img class="image-modal-preview" id="image-modal-preview" alt="">
+            <div class="image-modal-actions">
+                <button class="image-modal-btn" type="button" aria-label="Alejar" onclick="zoomImage(-0.2)">-</button>
+                <button class="image-modal-btn" type="button" aria-label="Restablecer zoom" onclick="resetImageZoom()">100%</button>
+                <button class="image-modal-btn" type="button" aria-label="Acercar" onclick="zoomImage(0.2)">+</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Carrito -->
     <div class="modal" id="cart-modal">
         <div class="modal-content">
@@ -528,12 +609,44 @@
         ];
 
         let cart = [];
+        let imageZoom = 1;
+
+        function openImageModal(src, alt) {
+            const modal = document.getElementById('image-modal');
+            const preview = document.getElementById('image-modal-preview');
+            preview.src = src;
+            preview.alt = alt;
+            resetImageZoom();
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('image-modal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function zoomImage(amount) {
+            imageZoom = Math.min(3, Math.max(1, imageZoom + amount));
+            document.getElementById('image-modal-preview').style.transform = `scale(${imageZoom})`;
+        }
+
+        function resetImageZoom() {
+            imageZoom = 1;
+            const preview = document.getElementById('image-modal-preview');
+            if (preview) preview.style.transform = 'scale(1)';
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeImageModal();
+        });
 
         function renderProducts(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = items.map(p => `
                 <div class="product-card">
-                    <div class="product-img-wrap">
+                    <div class="product-img-wrap" onclick="openImageModal('${p.image}', '${p.name.replace(/'/g, "\\'")}')">
                         <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy">
                     </div>
                     <div class="product-info">
