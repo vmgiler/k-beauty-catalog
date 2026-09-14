@@ -465,7 +465,7 @@
     <div class="image-modal" id="image-modal" onclick="closeImageModal(event)">
         <button class="image-modal-close" type="button" aria-label="Cerrar imagen" onclick="closeImageModal()">&times;</button>
         <div class="image-modal-content" onclick="event.stopPropagation()">
-            <div class="image-modal-stage" onclick="closeImageModal(event)">
+            <div class="image-modal-stage" onclick="closeImageModal(event)" onwheel="handleImageWheel(event)">
                 <img class="image-modal-preview" id="image-modal-preview" alt="" onclick="handlePreviewClick()" onpointerdown="startImagePan(event)" onpointermove="moveImagePan(event)" onpointerup="endImagePan(event)" onpointercancel="endImagePan(event)">
             </div>
             <div class="image-modal-actions">
@@ -662,6 +662,11 @@
             document.getElementById('image-zoom-level').textContent = `${Math.round(imageZoom * 100)}%`;
         }
 
+        function handleImageWheel(event) {
+            event.preventDefault();
+            zoomImage(event.deltaY < 0 ? 0.1 : -0.1);
+        }
+
         function resetImageZoom() {
             imageZoom = 1;
             imagePanX = 0;
@@ -677,7 +682,14 @@
 
         function applyImageTransform() {
             const preview = document.getElementById('image-modal-preview');
-            if (preview) preview.style.transform = `translate(${imagePanX}px, ${imagePanY}px) scale(${imageZoom})`;
+            const stage = document.querySelector('.image-modal-stage');
+            if (!preview || !stage) return;
+
+            const maxPanX = Math.max(0, (preview.offsetWidth * imageZoom - stage.clientWidth) / 2);
+            const maxPanY = Math.max(0, (preview.offsetHeight * imageZoom - stage.clientHeight) / 2);
+            imagePanX = Math.min(maxPanX, Math.max(-maxPanX, imagePanX));
+            imagePanY = Math.min(maxPanY, Math.max(-maxPanY, imagePanY));
+            preview.style.transform = `translate(${imagePanX}px, ${imagePanY}px) scale(${imageZoom})`;
         }
 
         function startImagePan(event) {
