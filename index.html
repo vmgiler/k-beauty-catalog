@@ -197,6 +197,7 @@
             cursor: grab;
             touch-action: none;
             user-select: none;
+            will-change: transform;
         }
 
         .image-modal-preview.dragging {
@@ -635,8 +636,6 @@
         let imageZoom = 1;
         let imagePanX = 0;
         let imagePanY = 0;
-        let imagePanStartX = 0;
-        let imagePanStartY = 0;
         let imageDidPan = false;
         let imageIsPanning = false;
 
@@ -695,20 +694,18 @@
         function startImagePan(event) {
             imageIsPanning = true;
             imageDidPan = false;
-            imagePanStartX = event.clientX - imagePanX;
-            imagePanStartY = event.clientY - imagePanY;
             event.currentTarget.setPointerCapture(event.pointerId);
             event.currentTarget.classList.add('dragging');
+            event.preventDefault();
         }
 
         function moveImagePan(event) {
             if (!imageIsPanning) return;
-            const nextPanX = event.clientX - imagePanStartX;
-            const nextPanY = event.clientY - imagePanStartY;
-            imageDidPan = imageDidPan || Math.abs(nextPanX - imagePanX) > 3 || Math.abs(nextPanY - imagePanY) > 3;
-            imagePanX = nextPanX;
-            imagePanY = nextPanY;
+            imageDidPan = imageDidPan || Math.abs(event.movementX) > 0 || Math.abs(event.movementY) > 0;
+            imagePanX += event.movementX;
+            imagePanY += event.movementY;
             applyImageTransform();
+            event.preventDefault();
         }
 
         function endImagePan(event) {
