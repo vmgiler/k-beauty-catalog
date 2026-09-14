@@ -455,12 +455,12 @@
     <div class="image-modal" id="image-modal" onclick="closeImageModal(event)">
         <button class="image-modal-close" type="button" aria-label="Cerrar imagen" onclick="closeImageModal()">&times;</button>
         <div class="image-modal-content" onclick="event.stopPropagation()">
-            <div class="image-modal-stage">
-                <img class="image-modal-preview" id="image-modal-preview" alt="">
+            <div class="image-modal-stage" onclick="closeImageModal(event)">
+                <img class="image-modal-preview" id="image-modal-preview" alt="" onclick="resetImageZoom()">
             </div>
             <div class="image-modal-actions">
                 <button class="image-modal-btn" type="button" aria-label="Alejar" onclick="zoomImage(-0.2)">-</button>
-                <button class="image-modal-btn" type="button" aria-label="Restablecer zoom" onclick="resetImageZoom()">100%</button>
+                <button class="image-modal-btn" id="image-zoom-level" type="button" aria-label="Restablecer zoom" onclick="resetImageZoom()">100%</button>
                 <button class="image-modal-btn" type="button" aria-label="Acercar" onclick="zoomImage(0.2)">+</button>
             </div>
         </div>
@@ -643,12 +643,15 @@
         function zoomImage(amount) {
             imageZoom = Math.min(3, Math.max(1, imageZoom + amount));
             document.getElementById('image-modal-preview').style.transform = `scale(${imageZoom})`;
+            document.getElementById('image-zoom-level').textContent = `${Math.round(imageZoom * 100)}%`;
         }
 
         function resetImageZoom() {
             imageZoom = 1;
             const preview = document.getElementById('image-modal-preview');
             if (preview) preview.style.transform = 'scale(1)';
+            const zoomLevel = document.getElementById('image-zoom-level');
+            if (zoomLevel) zoomLevel.textContent = '100%';
         }
 
         document.addEventListener('keydown', event => {
