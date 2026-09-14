@@ -450,10 +450,10 @@
     </header -->
 
     <div class="categories">
-        <button class="cat-btn active" onclick="filterCategory('all', this)">Todos</button>
-        <button class="cat-btn" onclick="filterCategory('mascarillas', this)">Mascarillas</button>
-        <button class="cat-btn" onclick="filterCategory('serums', this)">Serums y Limpieza</button>
-        <button class="cat-btn" onclick="filterCategory('solar', this)">Protección Solar</button>
+        <button class="cat-btn active" data-category="all" onclick="filterCategory('all', this)">Todos</button>
+        <button class="cat-btn" data-category="mascarillas" onclick="filterCategory('mascarillas', this)">Mascarillas</button>
+        <button class="cat-btn" data-category="serums" onclick="filterCategory('serums', this)">Serums y Limpieza</button>
+        <button class="cat-btn" data-category="solar" onclick="filterCategory('solar', this)">Protección Solar</button>
     </div>
 
     <main class="container">
@@ -746,9 +746,23 @@
             `).join('');
         }
 
-        function filterCategory(cat, btn) {
+        function filterCategory(cat, btn, updateUrl = true) {
+            const validCategory = cat === 'all' || products.some(product => product.category === cat);
+            if (!validCategory) cat = 'all';
+
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            const activeButton = btn || document.querySelector(`[data-category="${cat}"]`);
+            if (activeButton) activeButton.classList.add('active');
+
+            if (updateUrl) {
+                const url = new URL(window.location.href);
+                if (cat === 'all') {
+                    url.searchParams.delete('category');
+                } else {
+                    url.searchParams.set('category', cat);
+                }
+                window.history.pushState({}, '', url);
+            }
             
             if (cat === 'all') {
                 renderProducts(products);
@@ -756,6 +770,16 @@
                 renderProducts(products.filter(p => p.category === cat));
             }
         }
+
+        function loadCategoryFromUrl() {
+            const requestedCategory = new URLSearchParams(window.location.search).get('category');
+            const category = requestedCategory && products.some(product => product.category === requestedCategory)
+                ? requestedCategory
+                : 'all';
+            filterCategory(category, null, false);
+        }
+
+        window.addEventListener('popstate', loadCategoryFromUrl);
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
@@ -839,7 +863,7 @@
         }
 
         // Inicializar
-        renderProducts(products);
+        loadCategoryFromUrl();
     </script>
 </body>
 </html>
