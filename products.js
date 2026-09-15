@@ -1,0 +1,20 @@
+const products = [
+    { id: 1, brand: "COSRX", name: "The Peptide Collagen Lifting Glow Hydrogel Mask", price: 6.00, category: "mascarillas", image: "media/IMG_20260904_230002.jpg", stock: 2 },
+    { id: 2, brand: "COSRX", name: "The Alpha-Arbutin Discoloration Care Hydrogel Mask", price: 6.00, category: "mascarillas", image: "media/IMG_20260904_230013.jpg", stock: 2 },
+    { id: 3, brand: "COSRX", name: "Advanced Snail Mucin Glass Glow Hydrogel Mask", price: 6.00, category: "mascarillas", image: "media/IMG_20260904_230020.jpg", stock: 2 },
+    { id: 4, brand: "SUNSKIN", name: "ALOE Daily Essential Mask", price: 1.00, category: "mascarillas", image: "media/IMG_20260904_230046.jpg", stock: 2 },
+    { id: 5, brand: "medicube", name: "PDRN PINK COLLAGEN GEL MASK (4EA)", price: 24.00, category: "mascarillas", image: "media/IMG_20260904_230029.jpg", stock: 1 },
+    { id: 6, brand: "Biodance", name: "BIO COLLAGEN REAL DEEP MASK (7EA)", price: 32.00, category: "mascarillas", image: "media/IMG_20260904_230036.jpg", stock: 1 },
+    { id: 7, brand: "Easyderm Beauty", name: "Easyderm Beauty Relief Patch 57EA", price: 10.00, category: "mascarillas", image: "media/IMG_20260904_230042.jpg", stock: 2 },
+    { id: 8, brand: "MEDIHEAL", name: "DERMA SERUM PDRN PORE 50ml 2EA", price: 30.00, category: "serums", image: "media/IMG_20260904_230240.jpg", stock: 1 },
+    { id: 9, brand: "Beauty of Joseon", name: "Relief Sun Aqua-fresfi Rice+B5 SPF 50+ PA++++", price: 15.00, category: "solar", image: "media/IMG_20260904_230247.jpg", stock: 3 },
+    { id: 10, brand: "KAHI", name: "Multi Balm With JEJU Origin Oil", price: 25.00, category: "serums", image: "media/IMG_20260904_230430.jpg", stock: 3 },
+    { id: 11, brand: "TOCOBO", name: "Cotton Soft Sun Stick SPF50+ PA++++", price: 15.00, category: "solar", image: "media/IMG_20260904_230509.jpg", stock: 4 },
+    { id: 12, brand: "celimax", name: "RETINOL SHOT TIGHTENING SERUM", price: 25.00, category: "serums", image: "media/IMG_20260904_230134.jpg", stock: 2 },
+    { id: 13, brand: "CENTELLA", name: "HYALU-CICA FIRST AMPOULE", price: 20.00, category: "serums", image: "media/IMG_20260904_230256.jpg", stock: 2 },
+    { id: 14, brand: "SUNSKIN", name: "24K GOLD Calming Foam Cleansing", price: 32.00, category: "serums", image: "media/IMG_20260904_230215.jpg", stock: 1 },
+    { id: 15, brand: "SUNSKIN", name: "Stem Cell EGF Cream", price: 15.00, category: "serums", image: "media/IMG_20260904_230645.jpg", stock: 2 },
+    { id: 16, brand: "peripera", name: "MOOD GLOWY TINT 21", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
+    { id: 17, brand: "peripera", name: "MOOD GLOWY TINT 01", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
+    { id: 18, brand: "peripera", name: "INK VELVET 26", price: 7.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 }
+];

@@ -20,6 +20,15 @@ Después visita <http://localhost:8000>.
 
 ## Estructura
 
-- `index.html`: aplicación completa del catálogo.
-- `*.jpg` y `*.png`: imágenes de productos y composiciones del catálogo.
+- `index.html`: estructura HTML de la página.
+- `styles.css`: estilos del catálogo y de la vista de impresión.
+- `products.js`: datos de los productos y sus existencias.
+- `app.js`: lógica del catálogo, carrito, persistencia e impresión.
+- `media/`: imágenes de los productos.
 - `.github/workflows/pages.yml`: despliegue en GitHub Pages.
+
+## Nota sobre acceso a los datos
+
+Este proyecto es un sitio estático. El navegador necesita descargar `products.js` para mostrar el catálogo, por lo que ese archivo y sus datos pueden ser consultados directamente por cualquier visitante. GitHub Pages no permite ocultar archivos estáticos ni controlar su acceso desde el cliente.
+
+Si los datos deben mantenerse privados, será necesario moverlos a un backend con autenticación y servir el catálogo mediante una API protegida.
