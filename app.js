@@ -96,7 +96,7 @@ document.addEventListener('keydown', event => {
 
 function renderProducts(items) {
     const grid = document.getElementById('product-grid');
-    grid.innerHTML = items.map(p => `
+    grid.innerHTML = items.filter(p => p.stock > 0).map(p => `
         <div class="product-card">
             <div class="product-img-wrap" onclick="openImageModal('${p.image}', '${p.name.replace(/'/g, "\\'")}')">
                 <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy">
