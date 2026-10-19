@@ -10,10 +10,11 @@ const products = [
     { id: 9, brand: "Beauty of Joseon", name: "Relief Sun Aqua-fresfi Rice+B5 SPF 50+ PA++++", price: 15.00, category: "solar", image: "media/IMG_20260904_230247.jpg", stock: 1 },
     { id: 10, brand: "KAHI", name: "Multi Balm With JEJU Origin Oil", price: 25.00, category: "serums", image: "media/IMG_20260904_230430.jpg", stock: 2 },
     { id: 11, brand: "TOCOBO", name: "Cotton Soft Sun Stick SPF50+ PA++++", price: 15.00, category: "solar", image: "media/IMG_20260904_230509.jpg", stock: 1 },
-    { id: 12, brand: "CENTELLA", name: "HYALU-CICA FIRST AMPOULE", price: 20.00, category: "serums", image: "media/IMG_20260904_230256.jpg", stock: 1 },
-    { id: 13, brand: "SUNSKIN", name: "24K GOLD Calming Foam Cleansing", price: 32.00, category: "serums", image: "media/IMG_20260904_230215.jpg", stock: 1 },
-    { id: 14, brand: "SUNSKIN", name: "Stem Cell EGF Cream", price: 15.00, category: "serums", image: "media/IMG_20260904_230645.jpg", stock: 2 },
-    { id: 15, brand: "peripera", name: "MOOD GLOWY TINT 21", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
-    { id: 16, brand: "peripera", name: "MOOD GLOWY TINT 01", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
-    { id: 17, brand: "peripera", name: "INK VELVET 26", price: 7.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 }
+    { id: 12, brand: "celimax", name: "RETINOL SHOT TIGHTENING SERUM", price: 25.00, category: "serums", image: "media/IMG_20260904_230134.jpg", stock: 0 },
+    { id: 13, brand: "CENTELLA", name: "HYALU-CICA FIRST AMPOULE", price: 20.00, category: "serums", image: "media/IMG_20260904_230256.jpg", stock: 1 },
+    { id: 14, brand: "SUNSKIN", name: "24K GOLD Calming Foam Cleansing", price: 32.00, category: "serums", image: "media/IMG_20260904_230215.jpg", stock: 1 },
+    { id: 15, brand: "SUNSKIN", name: "Stem Cell EGF Cream", price: 15.00, category: "serums", image: "media/IMG_20260904_230645.jpg", stock: 2 },
+    { id: 16, brand: "peripera", name: "MOOD GLOWY TINT 21", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
+    { id: 17, brand: "peripera", name: "MOOD GLOWY TINT 01", price: 12.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 1 },
+    { id: 18, brand: "peripera", name: "INK VELVET 26", price: 7.00, category: "lips", image: "media/IMG_20260904_230307.jpg", stock: 0 }
 ];
